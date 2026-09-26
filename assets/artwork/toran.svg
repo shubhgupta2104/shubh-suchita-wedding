@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 140" fill="none">
+  <defs>
+    <g id="leaf"><path d="M0 0Q-22 22 0 58Q22 22 0 0Z" fill="#7a8b65"/><path d="M0 5V49" stroke="#d4c99a" stroke-width="1"/></g>
+    <g id="marigold"><circle r="9" fill="#d5ad6b"/><path d="M-9 0H9M0-9V9M-6-6L6 6M-6 6L6-6" stroke="#ebcc8b" stroke-width="3"/><circle r="4" fill="#c89959"/></g>
+    <g id="drop"><path d="M0 0V31" stroke="#b49a65"/><use href="#marigold" y="8"/><use href="#marigold" y="23"/><path d="M-5 34H5L2 43H-2Z" fill="#b58b66"/></g>
+    <g id="swag"><path d="M0 8Q125 106 250 8" stroke="#a18b5b" stroke-width="2"/><g transform="translate(20 23) rotate(23)"><use href="#leaf"/></g><g transform="translate(66 46) rotate(12)"><use href="#leaf"/></g><g transform="translate(124 58)"><use href="#drop"/></g><g transform="translate(184 46) rotate(-12)"><use href="#leaf"/></g><g transform="translate(230 23) rotate(-23)"><use href="#leaf"/></g><use href="#marigold" x="43" y="34"/><use href="#marigold" x="95" y="53"/><use href="#marigold" x="157" y="53"/><use href="#marigold" x="208" y="34"/><use href="#drop" y="10"/></g>
+  </defs>
+  <path d="M0 8H1000" stroke="#a9915f" stroke-width="1"/>
+  <use href="#swag"/><use href="#swag" x="250"/><use href="#swag" x="500"/><use href="#swag" x="750"/><use href="#drop" x="1000" y="10"/>
+</svg>
