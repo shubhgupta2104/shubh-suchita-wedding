@@ -87,7 +87,7 @@ nav a:hover { text-decoration: underline; }
 .gate-stage::before { content: ""; position: absolute; top: -7px; left: -5px; right: -5px; height: 90px; background: url("assets/artwork/toran.svg") center top / 100% auto no-repeat; z-index: 2; pointer-events: none; }
 .gate-light { position: absolute; inset: 0; background: #e7e7d5 var(--venue-art) center / cover no-repeat; }
 .gate-leaves { position: absolute; inset: 0; display: flex; gap: 3px; background: #2c3525; transform-style: preserve-3d; }
-.gate-leaf { flex: 1; min-width: 0; height: 100%; background: #516044 var(--gate-art, url("assets/artwork/gate-panel.svg")) center / 100% 100% no-repeat; box-shadow: inset -7px 0 10px #28301e35; backface-visibility: hidden; transition: transform 1.8s cubic-bezier(.3,.05,.2,1), box-shadow 1.8s; }
+.gate-leaf { flex: 1; min-width: 0; height: 100%; background: #516044 var(--gate-art, url("assets/artwork/gate-panel.svg")) center / 100% 100% no-repeat; box-shadow: inset -7px 0 10px #28301e35; -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: rotateY(0deg); }
 .gate-left { transform-origin: left center; }
 .gate-right { transform-origin: right center; background: none; position: relative; }
 .gate-right::before { content: ""; position: absolute; inset: 0; background: #516044 var(--gate-art, url("assets/artwork/gate-panel.svg")) center / 100% 100% no-repeat; transform: scaleX(-1); }
@@ -98,9 +98,9 @@ nav a:hover { text-decoration: underline; }
 .entrance-foot { font-size: 11px; line-height: 1.4; margin-top: 10px; }
 .entrance-foot span { margin: 0 8px; }
 .gates-opening { background: transparent; pointer-events: none; }
-.gates-opening .gate-left { transform: rotateY(-108deg); box-shadow: 12px 10px 25px #79644820; }
-.gates-opening .gate-right { transform: rotateY(108deg); box-shadow: -12px 10px 25px #79644820; }
-.gates-opening .gate-welcome, .gates-opening .gate-actions, .gates-opening .gate-seal, .gates-opening .gate-light, .gates-opening .gate-stage::before { opacity: 0; transition: opacity .4s; }
+.gates-opening .gate-left { box-shadow: 12px 10px 25px #79644820; }
+.gates-opening .gate-right { box-shadow: -12px 10px 25px #79644820; }
+.gates-opening .gate-light, .gates-opening .gate-stage::before { opacity: 0; transition: opacity .4s; }
 .gates-opening .gate-leaves { background: transparent; transition: background .4s; }
 .gates-opening .gate-stage { border-color: transparent; box-shadow: none; transition: border-color .4s, box-shadow .4s; }
 .gates-opening::backdrop { background: transparent; transition: background .6s; }
@@ -212,38 +212,15 @@ nav a:hover { text-decoration: underline; }
 .scene.scene-playing * { animation-play-state: running !important; }
 .scene .miniature-botanical { transform-box: fill-box; transform-origin: center bottom; animation: painted-breeze 8s ease-in-out infinite; }
 .scene .miniature-veil, .scene .miniature-veil-thread, .scene .miniature-stole { transform-box: fill-box; transform-origin: center top; animation: silk-drift 9s ease-in-out infinite; }
-.scene .miniature-hand { transform-box: fill-box; transform-origin: 12% 10%; animation: shared-moment 10s ease-in-out infinite; }
-.scene .miniature-profile { transform-box: fill-box; transform-origin: center bottom; animation: quiet-glance 10s ease-in-out infinite; }
-.scene .miniature-bride .miniature-profile { animation-delay: -.5s; }
-.scene .miniature-duet { transform-box: fill-box; transform-origin: center bottom; animation: dancing-together 9s ease-in-out infinite; }
-.scene .miniature-duet .miniature-skirt { transform-box: fill-box; transform-origin: center top; animation: silk-turn 9s ease-in-out infinite; }
-.scene .miniature-duet .miniature-hand { animation-name: dancing-hands; animation-duration: 9s; }
-.scene .miniature-procession, .scene .miniature-arrival { animation: ceremonial-step 12s ease-in-out infinite; }
-.scene .miniature-step { transform-box: fill-box; transform-origin: center top; animation: step-fold 12s ease-in-out infinite; }
-.scene .miniature-bride .miniature-step { animation-delay: -.6s; }
 .scene .miniature-flame { transform-box: fill-box; transform-origin: center bottom; animation: painted-flame 2.8s ease-in-out infinite; }
 .scene .miniature-lamplight, .scene .miniature-light { animation: candle-breath 6s var(--light-delay,0s) ease-in-out infinite; }
 .scene .miniature-sunwash { animation: candle-breath 12s ease-in-out infinite; }
 .scene .miniature-canopy, .scene .miniature-bunting, .scene .miniature-ribbon { transform-box: fill-box; transform-origin: center top; animation: silk-drift 9s ease-in-out infinite; }
-.scene .miniature-garland { transform-box: fill-box; transform-origin: center top; animation: garland-offering 10s ease-in-out infinite; }
-.scene .miniature-drumbeat { transform-box: fill-box; transform-origin: center top; animation: dhol-beat 3s ease-in-out infinite; }
 .scene .miniature-petal { animation: painted-petal 10s var(--petal-delay,0s) ease-in-out infinite; }
-.scene .miniature-tableau { transition: filter 1.2s; }
-.scene.is-awakened .miniature-tableau { filter: saturate(1.12); }
-.scene.is-awakened .miniature-hand, .scene.is-awakened .miniature-duet, .scene.is-awakened .miniature-garland { animation-duration: 6s; }
 @keyframes painted-breeze { 0%,100% { transform: rotate(-1deg); } 45% { transform: rotate(3deg); } 72% { transform: rotate(.5deg); } }
 @keyframes silk-drift { 0%,100% { transform: skewX(0); } 38% { transform: skewX(2deg); } 70% { transform: skewX(-1deg); } }
-@keyframes shared-moment { 0%,15%,100% { transform: rotate(0); } 42%,58% { transform: rotate(-6deg); } }
-@keyframes quiet-glance { 0%,20%,100% { transform: rotate(0); } 45%,60% { transform: rotate(2deg); } }
-@keyframes dancing-together { 0%,100% { transform: translateX(-4px) rotate(-1deg); } 35% { transform: translateX(5px) rotate(1deg); } 70% { transform: translateX(1px) rotate(.4deg); } }
-@keyframes dancing-hands { 0%,100% { transform: rotate(-2deg); } 35% { transform: rotate(6deg); } 70% { transform: rotate(1deg); } }
-@keyframes silk-turn { 0%,100% { transform: skewX(-1deg); } 35% { transform: skewX(4deg); } 70% { transform: skewX(-2deg); } }
-@keyframes ceremonial-step { 0%,15%,100% { transform: translateX(-8px); } 45%,65% { transform: translateX(10px); } }
-@keyframes step-fold { 0%,100% { transform: skewX(-1deg); } 40% { transform: skewX(2deg); } 68% { transform: skewX(-1deg); } }
 @keyframes painted-flame { 0%,100% { transform: scale(.96,1.02); } 40% { transform: scale(1.05,.94) skewX(3deg); } 70% { transform: scale(.98,1.04) skewX(-2deg); } }
 @keyframes candle-breath { 0%,100% { opacity: .48; } 45% { opacity: .95; } 70% { opacity: .72; } }
-@keyframes garland-offering { 0%,15%,100% { transform: translateY(0); } 42%,58% { transform: translateY(-13px) rotate(2deg); } }
-@keyframes dhol-beat { 0%,100% { transform: rotate(0); } 20%,55% { transform: rotate(-12deg); } 30%,65% { transform: rotate(3deg); } }
 @keyframes painted-petal { 0% { translate: 0 -15px; opacity: 0; } 15% { opacity: .7; } 85%,100% { translate: 30px 105px; opacity: 0; } }
 .scene .venue-leaves { transform-box: fill-box; transform-origin: center bottom; animation: venue-breeze 5s ease-in-out infinite alternate; }
 .scene .venue-ripples { animation: water-drift 5s ease-in-out infinite alternate; }
@@ -442,6 +419,6 @@ footer details p { margin: 12px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-  .scene .miniature-petal { opacity: .55; }
+  html:not(.motion-enabled) *, html:not(.motion-enabled) *::before, html:not(.motion-enabled) *::after { animation: none !important; transition: none !important; }
+  html:not(.motion-enabled) .scene .miniature-petal { opacity: .55; }
 }

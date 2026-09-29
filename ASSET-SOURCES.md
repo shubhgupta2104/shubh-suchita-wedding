@@ -1,6 +1,6 @@
 # Asset sources
 
-Owner: Shubh & Suchita | Updated: 27 September 2026
+Owner: Shubh & Suchita | Updated: 29 September 2026
 
 ## TL;DR
 
@@ -29,7 +29,7 @@ The two sample films use the [Mixkit Stock Video Free License](https://mixkit.co
 
 ## Impact
 
-No third-party scripts, trackers, font requests or media requests are needed to render the invitation. The music loads only after explicit play. Loading the map contacts Google.
+No third-party scripts, trackers, font requests or media requests are needed to render the invitation. The user-selected recording starts at 12 seconds when a guest opens or skips the entrance; a music button remains available to pause it. The audio is not a newly generated instrumental or a vocal-isolated version. Loading the map contacts Google.
 
 ## Risks and open questions
 

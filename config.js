@@ -37,6 +37,8 @@ export const invitation = {
     title: "Iktara",
     credit: "Iktara, from Wake Up Sid (2009). User-supplied recording.",
     rights: "The couple confirmed permission to embed and redistribute this recording on their invitation website.",
+    startSeconds: 12,
+    startOnEntrance: true,
   },
   map: {
     url: "https://maps.app.goo.gl/TTHtMXssw3zdFs2S6",

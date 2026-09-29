@@ -1,12 +1,12 @@
 # Shubh & Suchita
 
-Owner: Shubh & Suchita | Updated: 27 September 2026
+Owner: Shubh & Suchita | Updated: 29 September 2026
 
 ## TL;DR
 
 - A wedding invitation for 25 and 26 January 2027 at Evara Spa & Resort, Jim Corbett.
-- Original miniature-inspired illustrations, a date reveal and a live countdown.
-- Music plays only after the guest chooses it. Motion can be paused separately.
+- Original illustrations with softer faces and short celebration sequences that come to rest.
+- Music starts at 0:12 when a guest opens or skips the entrance, subject to browser permission, and plays to the end without looping.
 
 ## Why this matters
 
@@ -19,6 +19,8 @@ The site is static HTML, CSS and JavaScript with local artwork, fonts and media.
 ## Impact
 
 Phone-first layout, no signup, no guest-data collection by this site. Google Maps loads only after a click. A future RSVP link opens Google Forms. GitHub Pages operates the hosting service.
+
+Reduce Motion uses a short gate dissolve instead of rotation and keeps character scenes still by default. The motion control allows a guest to explicitly enable animation for the current visit.
 
 ## Risks and open questions
 

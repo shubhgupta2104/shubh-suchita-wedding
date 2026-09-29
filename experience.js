@@ -1,3 +1,5 @@
+import { createChoreography } from "./choreography.js";
+
 export const SCRATCH_THRESHOLD = 0.4;
 export const VISIT_KEY = "shubh-suchita-royal-visit-v1";
 
@@ -35,26 +37,27 @@ export function initMotion() {
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const button = document.querySelector("#motion-toggle");
   const listeners = new Set();
-  let paused = false;
+  let choice = null;
   const motion = {
-    get enabled() { return !preference.matches && !paused; },
+    get enabled() { return choice === null ? !preference.matches : choice; },
     subscribe(listener) { listeners.add(listener); },
   };
   function sync() {
     document.documentElement.classList.toggle("motion-paused", !motion.enabled);
+    document.documentElement.classList.toggle("motion-enabled", motion.enabled);
     button.setAttribute("aria-pressed", String(!motion.enabled));
-    button.setAttribute("aria-label", preference.matches ? "Decorative motion disabled by your reduced-motion preference" : `${paused ? "Play" : "Pause"} decorative motion`);
+    const followsReduction = preference.matches && choice === null;
+    button.setAttribute("aria-label", followsReduction ? "Enable decorative motion for this visit" : `${motion.enabled ? "Pause" : "Play"} decorative motion`);
     button.title = button.getAttribute("aria-label");
-    button.querySelector("span").textContent = preference.matches ? "Still view" : `${paused ? "Play" : "Pause"} motion`;
-    button.disabled = preference.matches;
-    document.querySelector("#motion-status").textContent = preference.matches
-      ? "Still illustrations for your reduced-motion preference."
-      : paused ? "Decorative motion paused." : "Decorative motion enabled.";
+    button.querySelector("span").textContent = followsReduction ? "Enable motion" : `${motion.enabled ? "Pause" : "Play"} motion`;
+    document.querySelector("#motion-status").textContent = followsReduction
+      ? "Still illustrations for your reduced-motion preference. You can choose to enable motion for this visit."
+      : motion.enabled ? "Decorative motion enabled." : "Decorative motion paused.";
     listeners.forEach((listener) => listener());
   }
   button.hidden = false;
-  button.addEventListener("click", () => { paused = !paused; sync(); });
-  preference.addEventListener("change", sync);
+  button.addEventListener("click", () => { choice = !motion.enabled; sync(); });
+  preference.addEventListener("change", () => { choice = null; sync(); });
   sync();
   return motion;
 }
@@ -90,26 +93,49 @@ export function initExperience(details, motion) {
     }
   }
   let closingGate = false;
-  let gateTimer;
+  let gateAnimations = [];
+  let gateEpoch = 0;
   const finishEntrance = () => {
-    clearTimeout(gateTimer);
+    gateEpoch++;
     if (!gate.open) return;
     gate.close();
+    gateAnimations.forEach(animation => animation.cancel());
+    gateAnimations = [];
     document.body.classList.remove("entrance-open");
     hero.classList.remove("names-waiting");
     document.querySelector("#couple-names").focus({ preventScroll: true });
     closingGate = false;
   };
-  function openGates(skip = false) {
+  async function openGates(skip = false) {
     if (closingGate) { if (skip) finishEntrance(); return; }
     closingGate = true;
     state.opened = true;
     persist();
-    gate.classList.add("gates-opening");
     hero.classList.remove("names-waiting");
     hero.classList.add("names-arriving");
-    if (skip || !motion.enabled) finishEntrance();
-    else gateTimer = setTimeout(finishEntrance, 1950);
+    if (skip) { finishEntrance(); return; }
+    const epoch = ++gateEpoch;
+    // Paint the closed state before creating compositor animations, including on mobile Safari.
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    if (epoch !== gateEpoch || !gate.open) return;
+    gate.classList.add("gates-opening");
+    const duration = motion.enabled ? 1850 : 550;
+    const options = { duration, fill: "forwards", easing: "cubic-bezier(.25,.1,.18,1)" };
+    const leaves = [...gate.querySelectorAll(".gate-leaf")];
+    try {
+      gateAnimations = leaves.map((leaf, index) => leaf.animate(motion.enabled
+        ? [{ transform: "rotateY(0deg)" }, { transform: `rotateY(${index === 0 ? -108 : 108}deg)` }]
+        : [{ opacity: 1 }, { opacity: 0 }], options));
+      gateAnimations.push(...[...gate.querySelectorAll(".gate-seal,.gate-welcome,.gate-actions")].map(element =>
+        element.animate([{ opacity: 1 }, { opacity: 0 }], { duration: motion.enabled ? 450 : duration, fill: "forwards" })));
+      await Promise.all(gateAnimations.map(animation => animation.finished));
+      if (epoch === gateEpoch) finishEntrance();
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Entrance animation failed:", error);
+        finishEntrance();
+      }
+    }
   }
   document.querySelector("#open-gates").addEventListener("click", () => openGates());
   document.querySelector("#skip-gates").addEventListener("click", () => openGates(true));
@@ -292,7 +318,10 @@ export function initExperience(details, motion) {
     }
   }
   motion.subscribe(() => {
-    if (!motion.enabled) { document.querySelector("#confetti").replaceChildren(); if (closingGate) finishEntrance(); }
+    if (!motion.enabled) {
+      document.querySelector("#confetti").replaceChildren();
+      if (closingGate && gateAnimations.length) finishEntrance();
+    }
   });
 }
 
@@ -337,17 +366,17 @@ export function initPractical(details) {
   }
 }
 
-function addSceneInteraction(figure, motion) {
+function addSceneInteraction(figure, motion, choreography) {
   const art = figure.querySelector(".scene-art");
   const svg = art.querySelector("svg");
   const kind = figure.dataset.scene;
   const actionNames = {
     evara: "Send a ripple across Evara's pool",
-    haldi: "Scatter a few haldi petals",
-    sangeet: "Light up the sangeet",
-    baraat: "Add a beat to the baraat",
-    varmala: "Let the wedding petals drift",
-    phere: "Warm the mandap lights",
+    haldi: "Replay the haldi moment",
+    sangeet: "Replay the couple's dance",
+    baraat: "Replay the baraat arrival",
+    varmala: "Replay the garland exchange",
+    phere: "Replay the walk around the sacred fire",
   };
   art.setAttribute("role", "button");
   art.setAttribute("aria-label", actionNames[kind]);
@@ -357,8 +386,13 @@ function addSceneInteraction(figure, motion) {
   let raf = 0;
   let lastReaction = -Infinity;
   function react(point) {
-    if (!motion.enabled || !figure.classList.contains("scene-playing") || performance.now() - lastReaction < 1600) return;
+    if (!motion.enabled || !figure.classList.contains("scene-playing") || performance.now() - lastReaction < (kind === "evara" ? 1600 : 7600)) return;
     lastReaction = performance.now();
+    if (kind !== "evara") {
+      choreography.replay();
+      figure.dataset.reactions = String(Number(figure.dataset.reactions || 0) + 1);
+      return;
+    }
     figure.classList.add("is-awakened");
     const ns = "http://www.w3.org/2000/svg";
     const layer = document.createElementNS(ns, "g");
@@ -447,10 +481,12 @@ function addSceneInteraction(figure, motion) {
 export function initScenes(details, motion) {
   const figures = [...document.querySelectorAll(".scene")];
   const visible = new Set();
+  const choreographies = new Map();
   const sync = () => {
     for (const figure of figures) {
       const playing = visible.has(figure) && !document.hidden && motion.enabled && !document.querySelector("dialog[open]");
       figure.classList.toggle("scene-playing", playing);
+      choreographies.get(figure)?.sync(playing, motion.enabled);
       if (!playing) {
         figure.classList.remove("is-awakened");
         figure.style.removeProperty("--parallax-x");
@@ -495,7 +531,9 @@ export function initScenes(details, motion) {
       // Only original, trusted local SVG files belong in this configuration.
       figure.querySelector(".scene-art").replaceChildren(document.importNode(svg.documentElement, true));
       figure.dataset.loaded = "true";
-      addSceneInteraction(figure, motion);
+      const choreography = createChoreography(figure);
+      choreographies.set(figure, choreography);
+      addSceneInteraction(figure, motion, choreography);
       sync();
     } catch (error) {
       console.error(`Could not animate ${event.title}:`, error);
