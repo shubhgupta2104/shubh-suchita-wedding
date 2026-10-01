@@ -1,4 +1,4 @@
-import { createChoreography } from "./choreography.js";
+import { createChoreography, SCENE_DURATION } from "./choreography.js";
 
 export const SCRATCH_THRESHOLD = 0.4;
 export const VISIT_KEY = "shubh-suchita-royal-visit-v1";
@@ -372,11 +372,11 @@ function addSceneInteraction(figure, motion, choreography) {
   const kind = figure.dataset.scene;
   const actionNames = {
     evara: "Send a ripple across Evara's pool",
-    haldi: "Replay the haldi moment",
-    sangeet: "Replay the couple's dance",
-    baraat: "Replay the baraat arrival",
-    varmala: "Replay the garland exchange",
-    phere: "Replay the walk around the sacred fire",
+    haldi: "Replay the Haldi illustration",
+    sangeet: "Replay the Sangeet illustration",
+    baraat: "Replay the Baraat illustration",
+    varmala: "Replay the Varmala illustration",
+    phere: "Replay the wedding illustration",
   };
   art.setAttribute("role", "button");
   art.setAttribute("aria-label", actionNames[kind]);
@@ -386,7 +386,8 @@ function addSceneInteraction(figure, motion, choreography) {
   let raf = 0;
   let lastReaction = -Infinity;
   function react(point) {
-    if (!motion.enabled || !figure.classList.contains("scene-playing") || performance.now() - lastReaction < (kind === "evara" ? 1600 : 7600)) return;
+    if (!motion.enabled || !figure.classList.contains("scene-playing") || performance.now() - lastReaction < (kind === "evara" ? 1600 : SCENE_DURATION)) return;
+    if (kind !== "evara" && figure.dataset.sequenceState === "playing") return;
     lastReaction = performance.now();
     if (kind !== "evara") {
       choreography.replay();
@@ -519,17 +520,21 @@ export function initScenes(details, motion) {
       ? { title: details.venue, artwork: details.venueArtwork }
       : details.celebrations.find((item) => item.id === figure.dataset.scene);
     const image = figure.querySelector("img");
+    figure.dataset.artworkType = event.artwork.type;
     image.src = event.artwork.src;
     image.alt = event.artwork.alt;
-    if (event.artwork.type !== "svg") return;
     try {
-      const response = await fetch(event.artwork.src);
-      if (!response.ok) throw new Error(`Illustration returned ${response.status}`);
-      const svg = new DOMParser().parseFromString(await response.text(), "image/svg+xml");
-      if (svg.querySelector("parsererror") || svg.documentElement.localName !== "svg") throw new Error("Invalid illustration SVG");
-      if (figure.dataset.scene === "evara") svg.documentElement.setAttribute("preserveAspectRatio", "xMidYMax slice");
-      // Only original, trusted local SVG files belong in this configuration.
-      figure.querySelector(".scene-art").replaceChildren(document.importNode(svg.documentElement, true));
+      if (event.artwork.type === "svg") {
+        const response = await fetch(event.artwork.src);
+        if (!response.ok) throw new Error(`Illustration returned ${response.status}`);
+        const svg = new DOMParser().parseFromString(await response.text(), "image/svg+xml");
+        if (svg.querySelector("parsererror") || svg.documentElement.localName !== "svg") throw new Error("Invalid illustration SVG");
+        if (figure.dataset.scene === "evara") svg.documentElement.setAttribute("preserveAspectRatio", "xMidYMax slice");
+        // Only authored, trusted local SVG files belong in this configuration.
+        figure.querySelector(".scene-art").replaceChildren(document.importNode(svg.documentElement, true));
+      } else {
+        throw new Error(`Unsupported artwork type: ${event.artwork.type}`);
+      }
       figure.dataset.loaded = "true";
       const choreography = createChoreography(figure);
       choreographies.set(figure, choreography);

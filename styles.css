@@ -177,11 +177,13 @@ nav a:hover { text-decoration: underline; }
 .celebration-suite { position: relative; max-width: 1500px; margin: auto; padding: 0 6%; }
 .occasion { display: grid; grid-template-columns: 1.22fr 1fr; align-items: center; margin-bottom: 28px; gap: 0; overflow: hidden; }
 .scene { min-width: 0; }
-.scene-art { aspect-ratio: 5 / 4; overflow: hidden; }
+.scene-art { aspect-ratio: 8 / 7; overflow: hidden; }
 .scene-art > svg, .scene-art img { width: 100%; height: 100%; object-fit: cover; }
+.occasion .scene { padding: 24px; }
+.occasion .scene-art { aspect-ratio: 8 / 9; width: 100%; max-width: 500px; margin-inline: auto; }
 .interactive-art { cursor: pointer; touch-action: pan-y pinch-zoom; -webkit-tap-highlight-color: transparent; position: relative; }
 .interactive-art[aria-disabled="true"] { cursor: default; }
-.scene-art > svg { filter: saturate(1.04); }
+.scene-art > svg { filter: none; }
 .scene .evara-setting { translate: calc(var(--parallax-x, 0px) * -.7) calc(var(--parallax-y, 0px) * -.5); transition: translate .55s ease-out; }
 .scene .parallax-mid { translate: calc(var(--parallax-x, 0px) * -.4) calc(var(--parallax-y, 0px) * -.3); transition: translate .55s ease-out; }
 .scene .parallax-front { translate: var(--parallax-x, 0px) var(--parallax-y, 0px); transition: translate .55s ease-out; }
@@ -210,18 +212,14 @@ nav a:hover { text-decoration: underline; }
 .day-divider strong { font: 12px var(--sans); letter-spacing: 1px; }
 .scene * { animation-play-state: paused !important; }
 .scene.scene-playing * { animation-play-state: running !important; }
-.scene .miniature-botanical { transform-box: fill-box; transform-origin: center bottom; animation: painted-breeze 8s ease-in-out infinite; }
-.scene .miniature-veil, .scene .miniature-veil-thread, .scene .miniature-stole { transform-box: fill-box; transform-origin: center top; animation: silk-drift 9s ease-in-out infinite; }
-.scene .miniature-flame { transform-box: fill-box; transform-origin: center bottom; animation: painted-flame 2.8s ease-in-out infinite; }
-.scene .miniature-lamplight, .scene .miniature-light { animation: candle-breath 6s var(--light-delay,0s) ease-in-out infinite; }
-.scene .miniature-sunwash { animation: candle-breath 12s ease-in-out infinite; }
-.scene .miniature-canopy, .scene .miniature-bunting, .scene .miniature-ribbon { transform-box: fill-box; transform-origin: center top; animation: silk-drift 9s ease-in-out infinite; }
-.scene .miniature-petal { animation: painted-petal 10s var(--petal-delay,0s) ease-in-out infinite; }
-@keyframes painted-breeze { 0%,100% { transform: rotate(-1deg); } 45% { transform: rotate(3deg); } 72% { transform: rotate(.5deg); } }
-@keyframes silk-drift { 0%,100% { transform: skewX(0); } 38% { transform: skewX(2deg); } 70% { transform: skewX(-1deg); } }
-@keyframes painted-flame { 0%,100% { transform: scale(.96,1.02); } 40% { transform: scale(1.05,.94) skewX(3deg); } 70% { transform: scale(.98,1.04) skewX(-2deg); } }
-@keyframes candle-breath { 0%,100% { opacity: .48; } 45% { opacity: .95; } 70% { opacity: .72; } }
-@keyframes painted-petal { 0% { translate: 0 -15px; opacity: 0; } 15% { opacity: .7; } 85%,100% { translate: 30px 105px; opacity: 0; } }
+.scene .flower-branch { transform-box: fill-box; transform-origin: center bottom; animation: floral-breeze 9s ease-in-out infinite; }
+.scene .canopy-fringe { transform-box: fill-box; transform-origin: center top; animation: fringe-breeze 8s ease-in-out infinite; }
+.scene .candle-flame { transform-box: fill-box; transform-origin: center bottom; animation: warm-flame 3.6s ease-in-out infinite; }
+.scene .light-halo { animation: warm-light 7s ease-in-out infinite; }
+@keyframes floral-breeze { 0%,100% { transform: rotate(-.7deg); } 45% { transform: rotate(1.4deg); } }
+@keyframes fringe-breeze { 0%,100% { transform: skewX(-1deg); } 50% { transform: skewX(1.5deg); } }
+@keyframes warm-flame { 0%,100% { transform: scale(1); } 40% { transform: scale(.94,1.08); } 70% { transform: scale(1.04,.96); } }
+@keyframes warm-light { 0%,100% { opacity:.6; } 45% { opacity:.95; } }
 .scene .venue-leaves { transform-box: fill-box; transform-origin: center bottom; animation: venue-breeze 5s ease-in-out infinite alternate; }
 .scene .venue-ripples { animation: water-drift 5s ease-in-out infinite alternate; }
 .scene .venue-reflections { animation: reflection-shimmer 4s ease-in-out infinite alternate; }
@@ -350,6 +348,7 @@ footer details p { margin: 12px 0; }
   .celebration-suite { padding: 0 12px; }
   .occasion, .sangeet, .varmala { display: flex; flex-direction: column; margin-bottom: 20px; }
   .scene, .sangeet .scene, .varmala .scene { order: 0; width: 100%; }
+  .occasion .scene { padding: 0; }
   .occasion-copy { width: 100%; padding: 27px 30px 35px; }
   .occasion-number { top: 24px; right: 30px; font-size: 25px; }
   .occasion .eyebrow { font-size: 10px; }
@@ -420,5 +419,5 @@ footer details p { margin: 12px 0; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   html:not(.motion-enabled) *, html:not(.motion-enabled) *::before, html:not(.motion-enabled) *::after { animation: none !important; transition: none !important; }
-  html:not(.motion-enabled) .scene .miniature-petal { opacity: .55; }
+  html:not(.motion-enabled) .scene .scene-petal { opacity: .55; }
 }

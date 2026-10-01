@@ -26,6 +26,9 @@ document.querySelectorAll("[data-event-time]").forEach((element) => {
 document.querySelectorAll("[data-venue-link]").forEach((link) => {
   link.href = invitation[link.dataset.venueLink];
 });
+document.querySelectorAll("[data-illustration-link]").forEach((link) => {
+  link.href = invitation.illustrationSource[link.dataset.illustrationLink];
+});
 document.querySelector("[data-venue-credit]").textContent = invitation.venueArtwork.credit;
 document.title = `${invitation.names} | A beautiful beginning`;
 const motion = initMotion();
