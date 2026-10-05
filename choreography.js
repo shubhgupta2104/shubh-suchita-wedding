@@ -40,16 +40,13 @@ export function createChoreography(figure) {
       add(".dhol-arm", [frame(0,"rotate(0deg)"),frame(.15,"rotate(-15deg)"),frame(.22,"rotate(6deg)"),frame(.42,"rotate(-15deg)"),frame(.49,"rotate(6deg)"),frame(.7,"rotate(-12deg)"),frame(.77,"rotate(5deg)"),frame(1,"rotate(0deg)")]);
       add(".parasol-fringe", [frame(0,"skewX(0deg)"),frame(.35,"skewX(2deg)"),frame(.68,"skewX(-1deg)"),frame(1,"skewX(0deg)")]);
       add(".saddle-tassels", [frame(0,"rotate(0deg)"),frame(.35,"rotate(2deg)"),frame(.68,"rotate(-1deg)"),frame(1,"rotate(0deg)")]);
-      add(".procession-flower", [frame(0,"rotate(0deg)"),frame(.35,"rotate(2deg)"),frame(.68,"rotate(-1deg)"),frame(1,"rotate(0deg)")]);
     } else if (kind === "varmala") {
       add(".varmala-veil-tip", [frame(0,"rotate(0deg)"),frame(.38,"rotate(-4deg)"),frame(.72,"rotate(1deg)"),frame(1,"rotate(0deg)")]);
-      add(".rose-flower-string", [frame(0,"rotate(0deg)"),frame(.38,"rotate(2deg)"),frame(.72,"rotate(-.7deg)"),frame(1,"rotate(0deg)")]);
     } else if (kind === "phere") {
       add(".ceremony-flame", [frame(0,"scale(1)"),frame(.25,"scale(.95,1.12)"),frame(.5,"scale(1.08,.93)"),frame(.75,"scale(.96,1.08)"),frame(1,"scale(1)")]);
       add(".ceremony-flame-inner", [frame(0,"scale(1)"),frame(.28,"scale(1.1,.9)"),frame(.55,"scale(.95,1.14)"),frame(.8,"scale(1.06,.94)"),frame(1,"scale(1)")]);
       add(".fire-glow", [{opacity:.48,offset:0},{opacity:.85,offset:.4},{opacity:.7,offset:.65},{opacity:.48,offset:1}]);
       add(".mandap-drape", [frame(0,"skewX(0deg)"),frame(.4,"skewX(.8deg)"),frame(.72,"skewX(-.3deg)"),frame(1,"skewX(0deg)")]);
-      add(".festoon-light", [{opacity:.6,offset:0},{opacity:.95,offset:.4},{opacity:.75,offset:.7},{opacity:.6,offset:1}]);
     }
     add(".botanical-spray", [frame(0,"rotate(0deg)"),frame(.36,"rotate(2deg)"),frame(.7,"rotate(-.7deg)"),frame(1,"rotate(0deg)")]);
     add(".scene-petal", [

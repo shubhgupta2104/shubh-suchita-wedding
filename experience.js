@@ -1,4 +1,5 @@
 import { createChoreography, SCENE_DURATION } from "./choreography.js";
+import { initSuppliedArtwork } from "./assets/celebrations/layout.js";
 
 export const SCRATCH_THRESHOLD = 0.4;
 export const VISIT_KEY = "shubh-suchita-royal-visit-v1";
@@ -65,15 +66,27 @@ export function initMotion() {
 export function initExperience(details, motion) {
   const gate = document.querySelector("#entrance");
   gate.style.setProperty("--gate-art", `url("${details.entranceArtwork}")`);
+  gate.style.setProperty("--gate-crown", `url("${details.entranceCrown}")`);
   gate.style.setProperty("--venue-art", `url("${details.venueArtwork.src}")`);
   const hero = document.querySelector(".hero");
   const panel = document.querySelector("#scratch-panel");
   const canvas = document.querySelector("#scratch-coating");
-  const alternative = document.querySelector("#reveal-date");
+  const scratchCue = document.querySelector("#scratch-cue");
+  const scratchHelp = document.querySelector("#scratch-help");
+  const scratchKeyboardHelp = document.querySelector("#scratch-keyboard-help");
+  const scratchProgress = document.querySelector("#scratch-progress");
   const announcement = document.querySelector("#date-announcement");
   const afterReveal = document.querySelector("#after-reveal");
   const preferences = document.querySelector("#visit-status");
   let state = { opened: false, revealed: false };
+  let scratchVisible = false;
+  function syncScratchCue() {
+    scratchCue.classList.toggle("cue-playing", scratchVisible && motion.enabled && !document.hidden && !gate.open && !state.revealed && !panel.classList.contains("is-scratching"));
+  }
+  new IntersectionObserver(([entry]) => { scratchVisible = entry.isIntersecting; syncScratchCue(); }, { threshold: 0 }).observe(panel);
+  motion.subscribe(syncScratchCue);
+  document.addEventListener("visibilitychange", syncScratchCue);
+  gate.addEventListener("close", syncScratchCue);
   let storageUsable = true;
   try {
     const saved = JSON.parse(sessionStorage.getItem(VISIT_KEY) || "null");
@@ -190,18 +203,21 @@ export function initExperience(details, motion) {
       setTimeout(() => { canvas.hidden = true; }, 650);
     } else canvas.hidden = true;
     afterReveal.classList.add("date-revealed");
-    const wasFocused = document.activeElement === alternative || document.activeElement === canvas;
-    alternative.hidden = true;
-    document.querySelector("#scratch-help").textContent = "Two days to remember.";
+    const wasFocused = document.activeElement === canvas;
+    scratchCue.hidden = true;
+    scratchHelp.hidden = true;
+    scratchKeyboardHelp.hidden = true;
+    scratchProgress.hidden = true;
+    syncScratchCue();
     announcement.textContent = `${details.dates}. ${details.venue}, ${details.destination}.`;
     if (wasFocused) document.querySelector("#revealed-date").focus({ preventScroll: true });
     if (celebrate) confetti();
     tick();
   }
-  alternative.addEventListener("click", () => reveal());
   canvas.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") { event.preventDefault(); reveal(); }
   });
+  canvas.addEventListener("click", (event) => { if (event.detail === 0) reveal(); });
   const countdown = document.querySelector("#countdown");
   document.querySelector(".countdown-wrap").hidden = false;
   function tick() {
@@ -249,10 +265,10 @@ export function initExperience(details, motion) {
         ctx.strokeRect(15, 15, 810, 190);
         ctx.fillStyle = "#4d4027";
         ctx.textAlign = "center";
-        ctx.font = "24px Georgia";
-        ctx.fillText("a date worth uncovering", 420, 114);
-        ctx.font = "14px sans-serif";
-        ctx.fillText("S C R A T C H   H E R E", 420, 153);
+        ctx.font = "44px Georgia";
+        ctx.fillText("Scratch here", 420, 84);
+        ctx.font = "22px sans-serif";
+        ctx.fillText("to uncover our wedding dates", 420, 122);
       } catch (error) {
         console.error("Scratch coating could not be drawn:", error);
         reveal(false);
@@ -261,18 +277,30 @@ export function initExperience(details, motion) {
       }
       // The hidden canvas is enhanced only after drawing succeeds. The date stays readable without JS.
       canvas.hidden = false;
-      alternative.hidden = false;
+      scratchCue.hidden = false;
+      scratchHelp.hidden = false;
+      scratchKeyboardHelp.hidden = false;
       panel.classList.add("scratch-ready");
-      afterReveal.classList.add("awaiting-date");
+      syncScratchCue();
       let pointer = null;
       let previous;
       let queued = false;
+      let lastProgressStep = -1;
       function measure() {
         queued = false;
         if (state.revealed) return;
         try {
           const fraction = erasedFraction(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
           panel.dataset.coverage = fraction.toFixed(5);
+          const percent = Math.floor(fraction * 100);
+          const progressStep = Math.floor(percent / 5);
+          if (progressStep !== lastProgressStep && fraction > 0) {
+            lastProgressStep = progressStep;
+            scratchProgress.hidden = false;
+            scratchProgress.textContent = percent < 10
+              ? "That's it. Keep brushing across the gold."
+              : `A little more... ${percent}% of the gold is cleared.`;
+          }
           if (fraction >= SCRATCH_THRESHOLD) reveal();
         } catch (error) {
           console.error("Scratch coverage measurement failed:", error);
@@ -284,7 +312,7 @@ export function initExperience(details, motion) {
         const rect = canvas.getBoundingClientRect();
         const point = { x: (event.clientX - rect.left) / rect.width * 840, y: (event.clientY - rect.top) / rect.height * 220 };
         ctx.globalCompositeOperation = "destination-out";
-        ctx.lineWidth = 76;
+        ctx.lineWidth = 84;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         ctx.beginPath();
@@ -297,6 +325,8 @@ export function initExperience(details, motion) {
       canvas.addEventListener("pointerdown", (event) => {
         if (state.revealed || pointer !== null || (event.pointerType === "mouse" && event.button !== 0)) return;
         pointer = event.pointerId;
+        panel.classList.add("is-scratching");
+        syncScratchCue();
         previous = null;
         canvas.setPointerCapture(pointer);
         erase(event);
@@ -485,6 +515,11 @@ export function initScenes(details, motion) {
   const choreographies = new Map();
   const sync = () => {
     for (const figure of figures) {
+      if (figure.dataset.artworkType === "supplied") {
+        figure.classList.remove("scene-playing");
+        figure.dataset.sequenceState = "still";
+        continue;
+      }
       const playing = visible.has(figure) && !document.hidden && motion.enabled && !document.querySelector("dialog[open]");
       figure.classList.toggle("scene-playing", playing);
       choreographies.get(figure)?.sync(playing, motion.enabled);
@@ -519,11 +554,17 @@ export function initScenes(details, motion) {
     const event = figure.dataset.scene === "evara"
       ? { title: details.venue, artwork: details.venueArtwork }
       : details.celebrations.find((item) => item.id === figure.dataset.scene);
-    const image = figure.querySelector("img");
+    const image = figure.querySelector(".supplied-foreground") || figure.querySelector("img");
     figure.dataset.artworkType = event.artwork.type;
     image.src = event.artwork.src;
     image.alt = event.artwork.alt;
     try {
+      if (event.artwork.type === "supplied") {
+        await initSuppliedArtwork(figure,event.artwork);
+        figure.dataset.loaded = "true";
+        figure.dataset.sequenceState = "still";
+        return;
+      }
       if (event.artwork.type === "svg") {
         const response = await fetch(event.artwork.src);
         if (!response.ok) throw new Error(`Illustration returned ${response.status}`);
@@ -541,8 +582,8 @@ export function initScenes(details, motion) {
       addSceneInteraction(figure, motion, choreography);
       sync();
     } catch (error) {
-      console.error(`Could not animate ${event.title}:`, error);
-      figure.querySelector(".scene-status").textContent = image.complete && !image.naturalWidth
+      console.error(`Could not load ${event.title} artwork:`, error);
+      figure.querySelector(".scene-status").textContent = event.artwork.type === "supplied" || (image.complete && !image.naturalWidth)
         ? "Illustration unavailable. The celebration details are below."
         : "Still illustration. Animated artwork could not load.";
     }
@@ -551,9 +592,10 @@ export function initScenes(details, motion) {
     for (const entry of entries) if (entry.isIntersecting) { lazy.unobserve(entry.target); void loadScene(entry.target); }
   }, { rootMargin: "300px" });
   for (const figure of figures) {
-    figure.querySelector("img").addEventListener("error", () => {
+    figure.querySelectorAll("img").forEach(image => image.addEventListener("error", () => {
+      console.error(`Illustration image unavailable: ${image.src}`);
       figure.querySelector(".scene-status").textContent = "Illustration unavailable. The celebration details are below.";
-    });
+    }));
     observer.observe(figure);
     lazy.observe(figure);
   }

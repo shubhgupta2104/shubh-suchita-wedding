@@ -1,11 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="none" fill="none">
-<defs><linearGradient id="cream"><stop stop-color="#e3d5b5"/><stop offset="1" stop-color="#b8a880"/></linearGradient><linearGradient id="timber"><stop stop-color="#354f3b"/><stop offset=".5" stop-color="#546746"/><stop offset="1" stop-color="#304732"/></linearGradient></defs>
-<path d="M0 0H400V800H0Z" fill="url(#cream)"/>
-<path d="M22 22H382V779H22Z" fill="url(#timber)" stroke="#bca275" stroke-width="5"/>
-<path d="M38 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M67 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M96 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M125 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M154 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M183 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M212 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M241 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M270 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M299 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M328 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/><path d="M357 38V761" stroke="#b8ac86" stroke-width="1.5" opacity=".55"/>
-<path d="M37 47H367V247H37ZM37 264H367V570H37ZM37 587H367V752H37Z" stroke="#c4b38b" stroke-width="2"/>
-<path d="M55 87L349 211M55 211L349 87M55 629L349 710M55 710L349 629" stroke="#b3a17a" stroke-width="3" opacity=".5"/>
-<path d="M330 364V462" stroke="#e5c98a" stroke-width="9" stroke-linecap="round"/>
-<circle cx="330" cy="364" r="8" fill="#e5c98a"/><circle cx="330" cy="462" r="8" fill="#e5c98a"/>
-<path d="M6 0V800M394 0V800" stroke="#b9ac8e" stroke-width="7"/>
+  <title>Original forest-green wedding door with antique-brass arches, lotus relief and a curved handle</title>
+  <defs>
+    <linearGradient id="door-timber"><stop stop-color="#233f34"/><stop offset=".48" stop-color="#466451"/><stop offset="1" stop-color="#294737"/></linearGradient>
+    <linearGradient id="door-brass"><stop stop-color="#ad874a"/><stop offset=".32" stop-color="#ead2a0"/><stop offset=".62" stop-color="#c6a36a"/><stop offset="1" stop-color="#99723c"/></linearGradient>
+    <pattern id="door-jaali" width="33" height="46" patternUnits="userSpaceOnUse"><path d="M16.5 0Q0 15 0 23Q0 31 16.5 46Q33 31 33 23Q33 15 16.5 0Z" stroke="#d1b279" stroke-width="1.2" opacity=".45"/><circle cx="16.5" cy="23" r="2.1" fill="#d7b97e" opacity=".45"/></pattern>
+    <clipPath id="door-arch"><path d="M51 283V136Q51 97 104 96Q145 47 200 54Q255 47 296 96Q349 97 349 136V283Z"/></clipPath>
+  </defs>
+  <path d="M0 0H400V800H0Z" fill="url(#door-brass)"/>
+  <path d="M13 13H387V787H13Z" fill="url(#door-timber)" stroke="#e4c98f" stroke-width="3"/>
+  <path d="M26 26H374V774H26Z" stroke="#8d713e" stroke-width="3"/><path d="M31 31H369V769H31Z" stroke="#d8bd83" stroke-width="1"/>
+  <path d="M46 287V135Q46 92 101 91Q145 40 200 47Q255 40 299 91Q354 92 354 135V287Z" fill="#304a3a" stroke="url(#door-brass)" stroke-width="7"/>
+  <path d="M51 283V136Q51 97 104 96Q145 47 200 54Q255 47 296 96Q349 97 349 136V283Z" fill="url(#door-jaali)"/>
+  <g clip-path="url(#door-arch)"><path d="M64 143Q130 131 200 145Q274 131 340 143" stroke="#d7b87d" stroke-width="1.2"/><path d="M66 232Q134 251 200 235Q266 251 337 232" stroke="#c7a66a" stroke-width="1.1"/></g>
+  <path d="M44 307H356V576H44Z" fill="#2d4939" stroke="url(#door-brass)" stroke-width="6"/>
+  <path d="M58 320H342V561H58Z" stroke="#d2b377" stroke-width="1.4"/>
+  <g transform="translate(191 438)" stroke="#d1b078" stroke-width="2">
+    <path d="M0 43Q-65 23-83-20Q-44-34 0 43Q65 23 83-20Q44-34 0 43Z"/>
+    <path d="M0 43Q-41-17 0-69Q41-17 0 43Z"/>
+    <path d="M0 43Q-87 47-108 13Q-44-2 0 43Q87 47 108 13Q44-2 0 43Z"/>
+    <path d="M-83 61H83M-58 70H58" stroke-width="1.2"/>
+    <path d="M0-47Q-19-13 0 22Q19-13 0-47Z" fill="#b99258" fill-opacity=".18" stroke-width="1"/>
+  </g>
+  <path d="M45 599H355V744H45Z" fill="#354e3a" stroke="url(#door-brass)" stroke-width="5"/>
+  <path d="M58 613H342V731H58Z" fill="url(#door-jaali)" opacity=".78"/>
+  <path d="M77 661Q143 619 198 660Q255 619 323 661M77 690Q143 732 198 691Q255 732 323 690" stroke="#d7b77e" stroke-width="1.3"/>
+  <g fill="url(#door-brass)" stroke="#95713f"><circle cx="329" cy="370" r="11"/><circle cx="329" cy="465" r="11"/><path d="M328 374Q304 403 310 431Q313 451 328 462" fill="none" stroke="#efd9a8" stroke-width="8"/></g>
+  <circle cx="45" cy="47" r="3.4" fill="#dab77a"/><circle cx="45" cy="295" r="3.4" fill="#dab77a"/><circle cx="45" cy="588" r="3.4" fill="#dab77a"/><circle cx="45" cy="754" r="3.4" fill="#dab77a"/><circle cx="355" cy="47" r="3.4" fill="#dab77a"/><circle cx="355" cy="295" r="3.4" fill="#dab77a"/><circle cx="355" cy="588" r="3.4" fill="#dab77a"/><circle cx="355" cy="754" r="3.4" fill="#dab77a"/>
+  <path d="M7 5V795M393 5V795" stroke="#f2deb0" stroke-width="2" opacity=".7"/>
 </svg>
