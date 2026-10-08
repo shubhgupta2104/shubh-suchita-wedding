@@ -12,7 +12,7 @@ export function initMusic(settings) {
   let positioned = false;
   let entranceStarted = false;
   const film = document.querySelector("#film-dialog");
-  const allowed = () => wantsMusic && !document.hidden && !film.open;
+  const allowed = () => wantsMusic && !document.hidden && !film?.open;
   const position = () => {
     if (positioned || audio.readyState < 1) return;
     if (!Number.isFinite(settings.startSeconds) || settings.startSeconds < 0 || settings.startSeconds >= audio.duration) {
@@ -101,9 +101,10 @@ export function initMusic(settings) {
   audio.addEventListener("playing", render);
   audio.addEventListener("pause", render);
   document.addEventListener("visibilitychange", () => { void sync(); });
-  new MutationObserver(() => { void sync(); }).observe(film, { attributes: true, attributeFilter: ["open"] });
+  if (film) new MutationObserver(() => { void sync(); }).observe(film, { attributes: true, attributeFilter: ["open"] });
   window.addEventListener("pagehide", () => { audio.pause(); clearTimeout(loadTimeout); });
   window.addEventListener("pageshow", () => { if (wantsMusic) void sync(); });
-  document.querySelector("#music-credit").textContent = settings.credit;
+  const credit = document.querySelector("#music-credit");
+  if (credit) credit.textContent = settings.credit;
   render();
 }

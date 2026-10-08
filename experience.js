@@ -34,31 +34,33 @@ export function googleFormLink(value) {
   return null;
 }
 
+export function googleFormEmbedUrl(value) {
+  const link = googleFormLink(value);
+  if (!link) return null;
+  const url = new URL(link);
+  if (url.hostname !== "docs.google.com" || !/^\/forms\/(?:u\/\d+\/)?d\/(?:e\/)?[\w-]+\/viewform\/?$/.test(url.pathname)) return null;
+  url.search = "";
+  url.hash = "";
+  url.searchParams.set("embedded","true");
+  return url.href;
+}
+
 export function initMotion() {
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
-  const button = document.querySelector("#motion-toggle");
   const listeners = new Set();
-  let choice = null;
   const motion = {
-    get enabled() { return choice === null ? !preference.matches : choice; },
+    get enabled() { return !preference.matches; },
     subscribe(listener) { listeners.add(listener); },
   };
   function sync() {
     document.documentElement.classList.toggle("motion-paused", !motion.enabled);
     document.documentElement.classList.toggle("motion-enabled", motion.enabled);
-    button.setAttribute("aria-pressed", String(!motion.enabled));
-    const followsReduction = preference.matches && choice === null;
-    button.setAttribute("aria-label", followsReduction ? "Enable decorative motion for this visit" : `${motion.enabled ? "Pause" : "Play"} decorative motion`);
-    button.title = button.getAttribute("aria-label");
-    button.querySelector("span").textContent = followsReduction ? "Enable motion" : `${motion.enabled ? "Pause" : "Play"} motion`;
-    document.querySelector("#motion-status").textContent = followsReduction
-      ? "Still illustrations for your reduced-motion preference. You can choose to enable motion for this visit."
-      : motion.enabled ? "Decorative motion enabled." : "Decorative motion paused.";
+    document.querySelector("#motion-status").textContent = preference.matches
+      ? "Still view for your device's reduced-motion preference."
+      : "Decorative motion enabled.";
     listeners.forEach((listener) => listener());
   }
-  button.hidden = false;
-  button.addEventListener("click", () => { choice = !motion.enabled; sync(); });
-  preference.addEventListener("change", () => { choice = null; sync(); });
+  preference.addEventListener("change", sync);
   sync();
   return motion;
 }
@@ -382,17 +384,32 @@ export function initPractical(details) {
   }
   const rsvpLink = document.querySelector("#rsvp-link");
   const rsvpStatus = document.querySelector("#rsvp-status");
+  const rsvpFrame = document.querySelector("#rsvp-frame");
+  rsvpFrame.replaceChildren();
+  rsvpFrame.hidden = true;
   rsvpLink.hidden = true;
   rsvpLink.removeAttribute("href");
-  rsvpStatus.textContent = "RSVP details coming soon.";
+  rsvpStatus.textContent = "The RSVP form is awaiting connection.";
   const form = googleFormLink(details.rsvp.googleFormUrl);
-  if (form) {
+  const embed = googleFormEmbedUrl(details.rsvp.googleFormUrl);
+  if (form && embed) {
+    const frame = document.createElement("iframe");
+    frame.title = `${details.names}: RSVP form in English and Hindi`;
+    frame.src = embed;
+    frame.loading = "lazy";
+    frame.referrerPolicy = "no-referrer";
+    frame.addEventListener("error",() => {
+      console.error("Embedded Google RSVP form could not load");
+      rsvpStatus.textContent = "The form couldn't load. You can open the same RSVP form separately below.";
+    });
+    rsvpFrame.append(frame);
+    rsvpFrame.hidden = false;
     rsvpLink.href = form;
     rsvpLink.hidden = false;
-    rsvpStatus.textContent = "Opens our RSVP form on Google Forms.";
+    rsvpStatus.textContent = "Complete your RSVP here. Responses are sent through Google Forms.";
   } else if (details.rsvp.googleFormUrl) {
-    console.error("Invalid Google Form URL in config.js");
-    rsvpStatus.textContent = "The RSVP link needs an update. Please check back soon.";
+    console.error("RSVP embedding requires a published docs.google.com/forms/.../viewform URL");
+    rsvpStatus.textContent = "The published RSVP form link needs an update. Please check back soon.";
   }
 }
 

@@ -24,14 +24,17 @@ The artwork evokes the wedding without presenting representative figures as port
 | Baraat | The supplied complete horse/procession is retained at native size over an original Evara-inspired courtyard. No horse booking or actual transport arrangement is implied. |
 | Phere | Supplied walking couple and ceremony fire. The fire is repositioned 75 native pixels nearer the couple without scaling or repainting. Original floral mandap, ivory drapery, lamps and grounded platform: `scripts/phere-setting.mjs`. No venue/decor photograph is used. |
 | Evara panorama | Original interpretation of features visible on [Evara's official website](https://www.evararesort.com/), not traced photography or an exact site plan |
+| Three actual Evara venue photographs | From [Evara's official gallery](https://www.evararesort.com/gallery.html): pool/lawn/hills, garden cottages and the illuminated pool/buildings at dusk. User explicitly confirmed permission to copy/embed these photos on 5 October 2026. Original rights remain. Local JPEGs are 1800 pixels wide; URLs, dimensions, preparation and hashes are in `assets/venue/sources.json`. No general visitor reuse licence is granted. |
 | Toran, lotus border, jaali and paper grain | Original decorative SVG artwork |
 | Wedding gate panels and floral crown | Original forest-green doors, antique-brass arch/jaali/lotus details, rose/ivory/marigold crown and lantern artwork. `scripts/build-gates.mjs` regenerates the panels and crown. Decorative invitation doors, not the actual resort entrance. |
 | Cormorant Garamond | Cormorant Project Authors via Google Fonts, SIL Open Font License 1.1. Full notice: `assets/fonts/OFL.txt` |
 | Iktara, from Wake Up Sid (2009) | User-supplied recording. The couple confirmed permission to embed and redistribute this recording on their public invitation. Music rights remain with their respective holders. No reuse license is granted here. |
-| Foliage sample film and poster | [Branches swaying in the wind](https://mixkit.co/free-stock-video/branches-swaying-in-the-wind-95/), creator [franklandgrave](https://mixkit.co/@franklandgrave/) |
-| Flower sample film and poster | [Pink flowers wave in the breeze](https://mixkit.co/free-stock-video/pink-flowers-wave-in-the-breeze-1168/), creator [franklandgrave](https://mixkit.co/@franklandgrave/) |
+| Archived foliage sample film and poster | [Branches swaying in the wind](https://mixkit.co/free-stock-video/branches-swaying-in-the-wind-95/), creator [franklandgrave](https://mixkit.co/@franklandgrave/). Removed from the latest guest UI/public packaging. |
+| Archived flower sample film and poster | [Pink flowers wave in the breeze](https://mixkit.co/free-stock-video/pink-flowers-wave-in-the-breeze-1168/), creator [franklandgrave](https://mixkit.co/@franklandgrave/). Removed from the latest guest UI/public packaging. |
 
-The two sample films use the [Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree). They are silent, 12-second edits, available in the collapsed Credits section. They are not wedding or venue footage. The [license text](https://mixkit.co/license/modal/videoFree/) and [terms](https://mixkit.co/terms/) were read on 24 September 2026.
+The archived sample films use the [Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree). They are silent, 12-second edits, not wedding or venue footage. Their viewer and Credits controls were removed from the latest local guest page. The [license text](https://mixkit.co/license/modal/videoFree/) and [terms](https://mixkit.co/terms/) were read on 24 September 2026.
+
+Following the user's explicit venue-photo permission confirmation, three real official-gallery photographs are embedded as local files, not hotlinks. Their inclusion relies on the user's statement; it is not an independently verified public stock licence. No stock/resort-substitute images are presented as Evara.
 
 ## Impact
 
@@ -39,7 +42,7 @@ No third-party scripts, trackers, font requests or media requests are needed to 
 
 ## Risks and open questions
 
-The figures, clothes and decor are representative, not portraits or confirmed event setups. Original creators retain rights to the supplied illustrations; the couple's publication confirmation is not a licence for visitors to reuse the files. No official venue photography or Vogue/celebrity imagery is used. The user-supplied logo and recording retain their separate rights.
+The figures, clothes and decor are representative, not portraits or confirmed event setups. Original creators retain rights to the supplied illustrations and venue photos; the user's permission confirmations do not grant visitor reuse rights. The real venue photos show the property, not a promised wedding setup. No Vogue/celebrity imagery is used. The user-supplied logo and recording retain their separate rights.
 
 The Pexels License was read directly on 1 October 2026. It permits modification and website use, with restrictions including offensive depiction, implied endorsement, stock-platform redistribution and trademark use. No Vogue or celebrity photograph was copied. Public availability alone was not treated as permission to adapt a photograph.
 

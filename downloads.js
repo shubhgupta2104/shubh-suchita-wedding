@@ -9,7 +9,7 @@ export function calendarText(details, now = new Date()) {
     `DTEND;VALUE=DATE:${details.calendarEndExclusive}`,
     `SUMMARY:${escape(`${details.names} Wedding Celebrations`)}`,
     `LOCATION:${escape(`${details.venue}, ${details.destination}`)}`,
-    `DESCRIPTION:${escape(`${details.celebrations.map((event) => `${event.title}: ${event.date}, ${event.time}`).join("\n")}\n${details.scheduleNote}\n${details.guestNote}`)}`,
+    `DESCRIPTION:${escape(details.celebrations.map((event) => `${event.title}: ${event.date}, ${event.time}`).join("\n"))}`,
     "TRANSP:TRANSPARENT", "END:VEVENT", "END:VCALENDAR",
   ];
   // RFC 5545 folds at 75 octets, without splitting a UTF-8 character.
@@ -83,21 +83,23 @@ export async function invitationImage(details) {
   border.src = "assets/artwork/lotus-border.svg";
   await border.decode();
   for (let x = 94; x < 1410; x += 144) ctx.drawImage(border, x, 77, 144, 60);
-  text(details.firstName, 830, 135);
-  text(`& ${details.secondName}`, 955, 135, "#9b5263", true);
-  text("With our families by our side,", 1045, 40);
-  text("we'd love to have you with us.", 1098, 40, "#203e32", true);
+  text(details.firstFullName, 810, 112);
+  small(`${details.firstMother} & ${details.firstFather}`, 858, 28, "#646653");
+  text(`& ${details.secondFullName}`, 970, 112, "#9b5263", true);
+  small(`${details.secondMother} & ${details.secondFather}`, 1018, 28, "#646653");
+  text("With our families by our side,", 1074, 38);
+  text("we'd love to have you with us.", 1118, 38, "#203e32", true);
   ctx.strokeStyle = "#baa67c";
   ctx.beginPath(); ctx.moveTo(610, 1150); ctx.lineTo(990, 1150); ctx.stroke();
   text(details.dates, 1240, 66);
   text(details.venue, 1314, 52);
   small(details.destination, 1363, 24);
   details.celebrations.forEach((event, index) => {
-    const y = 1460 + index * 74;
-    text(event.title, y, 37);
-    small(`${event.date}  /  ${event.time}`, y + 30, 21);
+    const y = 1430 + index * 94;
+    text(event.title, y, 33);
+    small(event.date, y + 26, 19);
+    small(event.time, y + 58, 29);
   });
-  small(details.guestNote, 1845, 22);
   ctx.fillStyle = "#203e32";
   ctx.fillRect(66, 1920, 1468, 214);
   text(`With love, ${details.names}`, 2016, 48, "#faf5eb", true);

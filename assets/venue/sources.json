@@ -1,0 +1,38 @@
+[
+  {
+    "id": "hills-and-pool",
+    "src": "assets/venue/hills-and-pool.jpg",
+    "sourcePage": "https://www.evararesort.com/gallery.html",
+    "thumbnailSource": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_2533/x_248,y_0,w_4504,h_2533,r_0,c_crop/q_80,w_900,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/BANQUIT_AND_POOL_kh3llf",
+    "downloadUrl": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_2533/x_248,y_0,w_4504,h_2533,r_0,c_crop/q_80,w_1800,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/BANQUIT_AND_POOL_kh3llf",
+    "sourceDescription": "A picturesque resort with a swimming pool, surrounded by lush greenery and majestic mountains",
+    "width": 1800,
+    "height": 1012,
+    "permission": "User confirmed permission to embed official venue photographs, 5 October 2026. Original rights remain.",
+    "sha256": "11779a6c22423fa69d2fb4b7ea766350302ab82ca017cded4caa47eefa8f2521"
+  },
+  {
+    "id": "garden-cottages",
+    "src": "assets/venue/garden-cottages.jpg",
+    "sourcePage": "https://www.evararesort.com/gallery.html",
+    "thumbnailSource": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_3333/x_0,y_260,w_5000,h_2813,r_0,c_crop/q_80,w_900,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/LOWN(1)",
+    "downloadUrl": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_3333/x_0,y_260,w_5000,h_2813,r_0,c_crop/q_80,w_1800,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/LOWN(1)",
+    "sourceDescription": "A row of luxurious villas with lit windows, surrounded by a green lawn.",
+    "width": 1800,
+    "height": 1013,
+    "permission": "User confirmed permission to embed official venue photographs, 5 October 2026. Original rights remain.",
+    "sha256": "cd88fc9ca6df2a82264f80051458558e1a9ea67f86fba0a862e739518cffd782"
+  },
+  {
+    "id": "evening-at-evara",
+    "src": "assets/venue/evening-at-evara.jpg",
+    "sourcePage": "https://www.evararesort.com/gallery.html",
+    "thumbnailSource": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_3333/x_0,y_260,w_5000,h_2813,r_0,c_crop/q_80,w_900,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/Evara_1_v0jsac",
+    "downloadUrl": "https://assets.simplotel.com/simplotel/image/upload/w_5000,h_3333/x_0,y_260,w_5000,h_2813,r_0,c_crop/q_80,w_1800,dpr_1,f_auto,fl_progressive,c_limit/evara-spa-resort/Evara_1_v0jsac",
+    "sourceDescription": "A resort with multiple buildings, a swimming pool, and a large lawn, illuminated at night against a backdrop of mountains.",
+    "width": 1800,
+    "height": 1013,
+    "permission": "User confirmed permission to embed official venue photographs, 5 October 2026. Original rights remain.",
+    "sha256": "1424b0bb688a2224f34032df258307bf65566d24a0aaed28214f2f79871ec8dc"
+  }
+]
